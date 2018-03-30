@@ -1,4 +1,4 @@
 # Lofti-Web
-The web app for Lofti
+The front-end for Lofti
 
 [In works]
