@@ -1,4 +1,1 @@
-# Lofti-Web
-The front-end for Lofti
-
-[In works]
+This is the GitHub pages branch for the Lofti application.

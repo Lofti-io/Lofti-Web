@@ -1,0 +1,23 @@
+
+body {
+    background-color: #F5F5F5;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    margin-top: 200px;
+    width: 85%;
+    height: auto;
+}
+
+#logo-callout {
+    font-family: 'Muli', sans-serif;
+    text-align: center;
+    font-size: 3em;
+    color: #59c0ee;
+}
