@@ -1,0 +1,37 @@
+{
+  "name": "Lofti-Web",
+  "version": "1.0.0",
+  "description": "The web app for Lofti",
+  "repository": "git@github.com:Lofti-io/Lofti-Web.git",
+  "author": "Lofti LLC",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "yarn dev:start",
+    "dev:start": "nodemon --ignore lib --exec babel-node src/server",
+    "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
+    "prod:start": "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
+    "prod:stop": "pm2 delete server",
+    "test": "eslint src && jest --coverage",
+    "precommit": "yarn test",
+    "prepush": "yarn test"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^22.4.3",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "husky": "^0.14.3",
+    "jest": "^22.4.3",
+    "nodemon": "^1.17.3",
+    "pm2": "^2.10.2",
+    "rimraf": "^2.6.2"
+  },
+  "dependencies": {
+    "compression": "^1.7.2",
+    "express": "^4.16.3"
+  }
+}
