@@ -5,7 +5,7 @@ const renderApp = (title: string) =>
 <html>
   <head>
     <title>${title}</title>
-    <link rel="stylesheet" href="${STATIC_PATH}/css/normalize.css">
+    <link rel="stylesheet" href="${STATIC_PATH}/css/style.css">
   </head>
   <body>
     <h1>${title}</h1>
