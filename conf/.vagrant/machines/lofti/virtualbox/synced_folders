@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/Lofti":{"guestpath":"/home/vagrant/Lofti","hostpath":"/home/ethos/Lofti","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/ethos/Lofti/conf","disabled":false,"__vagrantfile":true}}}

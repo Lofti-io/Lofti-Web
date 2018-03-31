@@ -1,0 +1,10 @@
+- name: Node PPA
+  get_url:
+    url: https://deb.nodesource.com/setup_8.x
+    dest: /tmp/setup.sh
+    mode: 0755
+
+- name: Run PPA script
+  shell: /tmp/setup.sh
+
+
