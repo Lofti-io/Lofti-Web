@@ -1,14 +1,25 @@
 import { Router } from 'express'
+import UserController from '../controllers/usersController'
 
 const routes = Router()
+
+/**
+ * GET users
+ * Returns all the users in the DB.
+ * TODO: Probably remove this function from production
+ */
+routes.get('/', UserController.list)
 
 /**
  * GET user by username.
  * Returns a User object given the username.
  */
-routes.get('/:userId', (req, res) => {
-  res.send(`User ID: ${req.params.userId}`)
-})
+routes.get('/:userId', UserController.get)
+
+/**
+* POST user, creates a new user
+*/
+routes.put('/', UserController.create)
 
 /**
  * GET user reviews by username.
