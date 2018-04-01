@@ -12,8 +12,10 @@
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
     "prod:start": "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
     "prod:stop": "pm2 delete server",
-    "test": "eslint src && jest --coverage",
-    "precommit": "yarn test"
+    "lint": "eslint src",
+    "test": "yarn lint && jest --coverage",
+    "precommit": "yarn test",
+    "migrate": "sequelize db:migrate"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
