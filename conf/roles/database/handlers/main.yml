@@ -1,2 +1,6 @@
 - name: restart postgresql
   service: name=postgresql state=restarted
+
+- name: apt-get update
+  apt:
+    update_cache: yes

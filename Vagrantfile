@@ -19,8 +19,6 @@ Vagrant.configure("2") do |config|
 		app.vm.network :private_network, ip: "192.168.60.4"
   end
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get upgrade
     apt-get install -y python
   SHELL
   config.vm.provision "ansible" do |ansible|

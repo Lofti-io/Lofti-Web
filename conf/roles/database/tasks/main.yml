@@ -8,38 +8,31 @@
     name: pg
     global: true
 
-- name: Add postgres user
-  user:
-    name: postgres
-    password: vagrant
+- apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main
+    state: present
+
+- name: Add apt signing keys
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+  notify: apt-get update
 
 - name: Install PostgreSQL and Update Dependencies
-  apt: name={{ item }} update_cache=true state=installed
+  apt: name={{ item }} state=installed allow_unauthenticated=yes
   with_items:
-    - bash
-    - openssl
-    - postgresql
-    - postgresql-contrib
-    - libssl-dev
-    - libssl-doc
-    - libpq-dev
     - python-psycopg2
+    - postgresql-10
+
 
 - name: Ensure the PostgreSQL service is running
-  service: name=postgresql state=started enabled=yes
+  service: name=postgresql state=restarted
 
-- name: Ensure database is created
-  sudo_user: postgres
-  postgresql_db: name=lofti_development state=present
+
+- name: Create postgres user for app
   become: yes
   become_user: postgres
-
-- name: Add Database
-  postgresql_db: name=lofti_development state=present
-  become: yes
-  become_user: postgres
-
-- name: Add User
-  postgresql_user: db=lofti_development name=loftidev
-  become: yes
-  become_user: postgres
+  postgresql_user:
+    name: "lofti"
+    password: "286755fad04869ca523320acce0dc6a4"
+    encrypted: yes
