@@ -1,0 +1,45 @@
+- name: "Download Sequelize"
+  npm:
+    name: sequelize-cli
+    global: true
+
+- name: "Download PG for Sequelize"
+  npm:
+    name: pg
+    global: true
+
+- name: Add postgres user
+  user:
+    name: postgres
+    password: vagrant
+
+- name: Install PostgreSQL and Update Dependencies
+  apt: name={{ item }} update_cache=true state=installed
+  with_items:
+    - bash
+    - openssl
+    - postgresql
+    - postgresql-contrib
+    - libssl-dev
+    - libssl-doc
+    - libpq-dev
+    - python-psycopg2
+
+- name: Ensure the PostgreSQL service is running
+  service: name=postgresql state=started enabled=yes
+
+- name: Ensure database is created
+  sudo_user: postgres
+  postgresql_db: name=lofti_development state=present
+  become: yes
+  become_user: postgres
+
+- name: Add Database
+  postgresql_db: name=lofti_development state=present
+  become: yes
+  become_user: postgres
+
+- name: Add User
+  postgresql_user: db=lofti_development name=loftidev
+  become: yes
+  become_user: postgres
