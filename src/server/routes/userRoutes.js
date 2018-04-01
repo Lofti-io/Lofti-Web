@@ -6,16 +6,16 @@ const routes = Router()
  * GET user by username.
  * Returns a User object given the username.
  */
-routes.get('/:userName', (req, res) => {
-  res.send(`User for username: ${req.params.userName}`)
+routes.get('/:userId', (req, res) => {
+  res.send(`User ID: ${req.params.userId}`)
 })
 
 /**
  * GET user reviews by username.
  * Returns the Review objects given the username.
  */
-routes.get('/:userName/reviews', (req, res) => {
-  res.send(`Reviews for: ${req.params.userName}`)
+routes.get('/:userId/reviews', (req, res) => {
+  res.send(`Reviews for ID: ${req.params.userId}`)
 })
 
 export default routes
