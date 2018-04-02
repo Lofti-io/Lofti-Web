@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "boot": "yarn wipedb && yarn migrate && yarn seed && yarn start",
+    "boot": "yarn && yarn wipedb && yarn migrate && yarn seed && yarn start",
     "start": "yarn dev:start",
     "dev:start": "nodemon -L --ignore lib --exec babel-node src/server",
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
