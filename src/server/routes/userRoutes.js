@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import UserController from '../controllers/usersController'
+import ReviewController from '../controllers/reviewsController'
 
 const routes = Router()
 
@@ -17,16 +18,19 @@ routes.get('/', UserController.list)
 routes.get('/:userId', UserController.get)
 
 /**
-* POST user, creates a new user
+* PUT user, creates a new user
 */
 routes.put('/', UserController.create)
+
+/**
+ * POST review, creates a new review under the given user
+ */
+routes.post('/:userId/reviews', ReviewController.create)
 
 /**
  * GET user reviews by username.
  * Returns the Review objects given the username.
  */
-routes.get('/:userId/reviews', (req, res) => {
-  res.send(`Reviews for ID: ${req.params.userId}`)
-})
+routes.get('/:userId/reviews', ReviewController.list)
 
 export default routes

@@ -3,6 +3,7 @@ const UserModel = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     // user.userId
     id: {
+      allowNull: false,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
@@ -24,9 +25,13 @@ const UserModel = (sequelize, DataTypes) => {
     },
   })
 
-  // User.associate = (models) => {
-  //   // TODO: Add associations
-  // }
+  // User has many reviews
+  User.associate = (models) => {
+    User.hasMany(models.Review, {
+      foreignKey: 'userId',
+      as: 'reviews',
+    })
+  }
 
   return User
 }

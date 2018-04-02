@@ -1,4 +1,4 @@
-import { User } from '../models'
+import { User, Review } from '../models'
 
 // Defines all possible operations on the User model
 class UserController {
@@ -26,9 +26,14 @@ class UserController {
   // TODO: Think about removing this function from production
   static list(req, res) {
     return User
-      .all()
-      .then(users => res.status(200).send(users))
-      .catch(error => res.status(400).send(error.toString()))
+      .findAll({
+        include: [{
+          model: Review,
+          as: 'reviews',
+        }],
+      })
+      .then(users => res.status(201).send(users))
+      .catch(error => res.status(401).send(error.toString()))
   }
 }
 
