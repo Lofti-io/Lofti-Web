@@ -33,6 +33,8 @@
   become: yes
   become_user: postgres
   postgresql_user:
-    name: "lofti"
-    password: "286755fad04869ca523320acce0dc6a4"
+    name: "loftidev"
+    password: "password"
     encrypted: yes
+    role_attr_flags: CREATEDB
+

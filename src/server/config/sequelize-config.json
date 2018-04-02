@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "loftidev",
-    "password": "loftidev123",
+    "password": "password",
     "database": "lofti_development",
     "host": "127.0.0.1",
     "port": 5432,

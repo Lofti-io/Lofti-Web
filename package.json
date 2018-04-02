@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "boot": "yarn && yarn wipedb && yarn migrate && yarn seed && yarn start",
+    "boot": "yarn && yarn createdb && yarn migrate && yarn seed && yarn start",
     "start": "yarn dev:start",
     "dev:start": "nodemon -L --ignore lib --exec babel-node src/server",
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
@@ -18,7 +18,8 @@
     "precommit": "yarn test",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
-    "wipedb": "sequelize db:drop && sequelize db:create"
+    "createdb": "sequelize db:create",
+    "resetdb": "sequelize db:drop && yarn createdb && yarn migrate && yarn seed"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
