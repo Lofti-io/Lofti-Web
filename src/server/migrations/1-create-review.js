@@ -1,38 +1,44 @@
 'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface, DataTypes) => {
     return queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
+
       // review.title
       title: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING(140),
         allowNull: false,
       },
+
       // review.description
       description: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
+
       // review.rating
       rating: {
-        type: Sequelize.FLOAT,
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
+
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       },
+
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       },
+
       userId: {
-        type: Sequelize.UUID,
+        type: DataTypes.UUID,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
@@ -43,7 +49,5 @@ module.exports = {
     });
   },
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Reviews');
-  }
+  down: queryInterface => queryInterface.dropTable('Reviews')
 };

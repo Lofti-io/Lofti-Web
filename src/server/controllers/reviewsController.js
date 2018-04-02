@@ -10,8 +10,8 @@ class ReviewController {
         description: req.body.description,
         rating: req.body.rating,
       })
-      .then(review => res.status(201).send(review))
-      .catch(error => res.status(401).send(error.toString()))
+      .then(review => res.status(200).send(review))
+      .catch(error => res.status(400).send(error.toString()))
   }
 
   // Returns a list of reviews for a specific user
@@ -23,8 +23,8 @@ class ReviewController {
           as: 'reviews',
         }],
       })
-      .then(user => res.status(201).send(user.reviews))
-      .catch(error => res.status(401).send(error.toString()))
+      .then(user => res.status(200).send(user.reviews))
+      .catch(error => res.status(400).send(error.toString()))
   }
 }
 

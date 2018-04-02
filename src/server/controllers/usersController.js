@@ -1,24 +1,35 @@
-import { User, Review } from '../models'
+import { Sequelize, User, Review } from '../models'
 
 // Defines all possible operations on the User model
 class UserController {
-  // Creates a new user given userName, email and password
+  // Creates a new user given name, email and password
   static create(req, res) {
     return User
       .create({
-        userName: req.body.userName,
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
       })
       .then(user => res.status(201).send(user))
-      .catch(error => res.status(400).send(error.toString()))
+      // Only happens when creating a user that already has given email
+      .catch(Sequelize.UniqueConstraintError, uniqError =>
+        res.status(409).json({
+          'message:': uniqError.errors[0].message,
+          'value:': uniqError.errors[0].value,
+        }))
+      // Error caused by invalid email, name length, etc
+      .catch(Sequelize.ValidationError, valError =>
+        res.status(409).json({
+          'errors:': valError.errors.map(val => ({ message: val.message, value: val.value })),
+        }))
+      .catch(error => res.status(400).json({ message: error.toString() }))
   }
 
   // Returns a user given a `userId`
   static get(req, res) {
     return User
       .findById(req.params.userId)
-      .then(user => res.status(201).send(user))
+      .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error.toString()))
   }
 
@@ -32,8 +43,8 @@ class UserController {
           as: 'reviews',
         }],
       })
-      .then(users => res.status(201).send(users))
-      .catch(error => res.status(401).send(error.toString()))
+      .then(users => res.status(200).send(users))
+      .catch(error => res.status(400).send(error.toString()))
   }
 }
 

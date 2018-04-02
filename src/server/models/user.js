@@ -1,23 +1,38 @@
 const UserModel = (sequelize, DataTypes) => {
   // User model
   const User = sequelize.define('User', {
-    // user.userId
+    // user.id
     id: {
       allowNull: false,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    // user.userName
-    userName: {
-      type: DataTypes.STRING,
+
+    // user.name
+    name: {
+      type: DataTypes.STRING(100),
       allowNull: false,
+      validate: {
+        len: {
+          args: [1, 100],
+          msg: 'Invalid length for name field',
+        },
+      },
     },
+
     // user.email
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: {
+          msg: 'Not a valid email',
+        },
+      },
     },
+
     // user.password
     password: {
       type: DataTypes.STRING,

@@ -12,8 +12,8 @@ const routes = Router()
 routes.get('/', UserController.list)
 
 /**
- * GET user by username.
- * Returns a User object given the username.
+ * GET user by user id.
+ * Returns a User object given the user id.
  */
 routes.get('/:userId', UserController.get)
 
@@ -28,8 +28,8 @@ routes.put('/', UserController.create)
 routes.post('/:userId/reviews', ReviewController.create)
 
 /**
- * GET user reviews by username.
- * Returns the Review objects given the username.
+ * GET user reviews by user id.
+ * Returns the Review objects given the user id.
  */
 routes.get('/:userId/reviews', ReviewController.list)
 
