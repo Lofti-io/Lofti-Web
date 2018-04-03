@@ -14,17 +14,18 @@
     "prod:start": "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
     "prod:stop": "pm2 delete server",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "test": "yarn lint && nyc --reporter=text --require babel-core/register mocha",
-    "precommit": "yarn test",
+    "lint:fix": "eslint src test --fix",
+    "test": "yarn resetdb && nyc --reporter=text --require babel-core/register mocha --exit",
+    "precommit": "yarn lint && yarn test",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
     "createdb": "sequelize db:create",
-    "resetdb": "sequelize db:drop && yarn createdb && yarn migrate && yarn seed"
+    "resetdb": "./scripts/reset-db.sh"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",

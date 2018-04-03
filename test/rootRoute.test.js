@@ -1,14 +1,13 @@
-import request from 'supertest'
+import supertest from 'supertest'
 import app from '../src/server/app'
+import { should, expect } from 'chai'
 
-describe("GET /",function(){
-  it("should return home page",function(done){
-    request(app)
-    .get("/")
-    .expect(200)
-    .end(function(err,res){
-      if (err) return done(err)
-      done()
-    })
+const api = supertest(app)
+
+describe('GET /', function() {
+  it('should return home page', function(done) {
+    api
+      .get("/")
+      .expect(200, done)
   })
 })
