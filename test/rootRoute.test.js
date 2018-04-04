@@ -1,9 +1,13 @@
-import request from 'supertest'
-
+import supertest from 'supertest'
 import app from '../src/server/app'
+import { should, expect } from 'chai'
 
-describe('GET /', () => {
-  it('should render properly', async () => {
-    await request(app).get('/').expect(200)
+const api = supertest(app)
+
+describe('GET /', function() {
+  it('should return home page', function(done) {
+    api
+      .get("/")
+      .expect(200, done)
   })
 })
