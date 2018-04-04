@@ -1,0 +1,4 @@
+---
+
+  # Location of .ssh directory
+  ssh_location: ~/.ssh

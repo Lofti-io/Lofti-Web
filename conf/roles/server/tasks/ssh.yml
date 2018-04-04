@@ -1,0 +1,9 @@
+---
+
+- name: Synchronize passing in extra rsync options
+  synchronize:
+    src: "{{ ssh_location }}"
+    dest: /home/vagrant/
+    rsync_opts:
+      - "--exclude=authorized_keys"
+      - "--exclude=config"
