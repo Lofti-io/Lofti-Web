@@ -7,23 +7,38 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "boot": "yarn db:migrate && yarn db:seed && yarn start",
+=======
+    "boot": "yarn && yarn createdb && yarn migrate && yarn seed",
+>>>>>>> e78c6fc95912ed87ed6399106dfd30d2b7e515c3
     "start": "yarn dev:start",
     "dev:start": "nodemon -L --ignore lib --exec babel-node src/server",
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
     "prod:start": "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
     "prod:stop": "pm2 delete server",
     "lint": "eslint src",
+<<<<<<< HEAD
     "lint:fix": "eslint src --fix",
     "test": "yarn lint && nyc --reporter=text --require babel-core/register mocha",
     "precommit": "docker-compose down && docker-compose -p tests run -p 8000 --rm web yarn test",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:reset": "sequelize db:drop && sequelize db:create && yarn db:migrate && yarn db:seed"
+=======
+    "lint:fix": "eslint src test --fix",
+    "test": "yarn resetdb && nyc --reporter=text --require babel-core/register mocha --exit",
+    "precommit": "yarn lint && yarn test",
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed:all",
+    "createdb": "sequelize db:create",
+    "resetdb": "./scripts/reset-db.sh"
+>>>>>>> e78c6fc95912ed87ed6399106dfd30d2b7e515c3
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",

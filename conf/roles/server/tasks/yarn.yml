@@ -1,24 +1,4 @@
 ---
-- name: Install Essentials
-  apt:
-    pkg: "{{ item  }}"
-    state: present
-  with_items:
-    - build-essential
-    - openssl
-    - libssl-dev
-    - vim
-    - tmux
-    - aptitude
-
-- name: Update
-  apt:
-    upgrade: true
-    update_cache: yes
-    cache_valid_time: 86400 #One day
-
-- name: Install Node
-  command: sudo snap install node --classic --channel 9/stable
 
 - name: "Yarn | GPG"
   apt_key:
@@ -42,3 +22,12 @@
 - name: "Yarn | Update APT cache"
   apt: pkg=yarn state=present update_cache=yes
 
+- name: "Download Sequelize"
+  npm:
+    name: sequelize-cli
+    global: true
+
+- name: "Download PG for Sequelize"
+  npm:
+    name: pg
+    global: true

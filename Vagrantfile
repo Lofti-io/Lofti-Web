@@ -6,9 +6,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
   config.vm.synced_folder ".", "/home/vagrant/Lofti"
   config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
-  config.vm.network :forwarded_port, guest: 3001, host: 3001, auto_correct: true
   config.vm.network :forwarded_port, guest: 8000, host: 8000, auto_correct: true
-  config.vm.network :forwarded_port, guest: 8001, host: 8001, auto_correct: true
+ config.ssh.forward_agent = true
   config.vm.provider :virtualbox do |v|
     v.memory = 1024
     v.linked_clone = true

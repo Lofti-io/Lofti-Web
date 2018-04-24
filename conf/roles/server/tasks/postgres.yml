@@ -1,35 +1,25 @@
-- name: "Download Sequelize"
-  npm:
-    name: sequelize-cli
-    global: true
-
-- name: "Download PG for Sequelize"
-  npm:
-    name: pg
-    global: true
+---
 
 - apt_repository:
     repo: deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main
     state: present
 
-- name: Add apt signing keys
+- name: Adding apt signing keys
   apt_key:
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
   notify: apt-get update
 
-- name: Install PostgreSQL and Update Dependencies
-  apt: name={{ item }} state=installed allow_unauthenticated=yes
+- name: Installing PostgreSQL
+  apt: name={{ item }} state=present allow_unauthenticated=yes
   with_items:
     - python-psycopg2
     - postgresql-10
 
-
-- name: Ensure the PostgreSQL service is running
+- name: Restarting PostgreSQL
   service: name=postgresql state=restarted
 
-
-- name: Create postgres user for app
+- name: Creating postgres user for app
   become: yes
   become_user: postgres
   postgresql_user:
