@@ -18,10 +18,10 @@ describe('GET /users', function() {
   })
 })
 
-describe('PUT /users', function() {
+describe('PUT /users/create', function() {
   it('should create new user -- 201', function(done) {
     api
-      .put("/users")
+      .put("/users/create")
       .set('Accept', 'application/x-www-form-urlencoded')
       .send({
         name: 'User Test',

@@ -20,7 +20,7 @@ routes.get('/:userId', UserController.get)
 /**
 * PUT user, creates a new user
 */
-routes.put('/', UserController.create)
+routes.put('/create', UserController.create)
 
 /**
  * POST review, creates a new review under the given user
