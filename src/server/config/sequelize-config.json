@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "loftidev",
+    "username": "lofti",
     "password": "password",
-    "database": "lofti_development",
-    "host": "127.0.0.1",
+    "database": "lofti_db",
+    "host": "postgres",
     "port": 5432,
     "dialect": "postgres"
   },

@@ -62,3 +62,5 @@ typings/
 .vagrant
 
 *.log
+
+docker-compose.yml

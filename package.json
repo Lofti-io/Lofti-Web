@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "boot": "yarn && yarn createdb && yarn migrate && yarn seed && yarn start",
+    "boot": "yarn db:migrate && yarn db:seed && yarn start",
     "start": "yarn dev:start",
     "dev:start": "nodemon -L --ignore lib --exec babel-node src/server",
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
@@ -16,11 +16,10 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "yarn lint && nyc --reporter=text --require babel-core/register mocha",
-    "precommit": "yarn test",
-    "migrate": "sequelize db:migrate",
-    "seed": "sequelize db:seed:all",
-    "createdb": "sequelize db:create",
-    "resetdb": "sequelize db:drop && yarn createdb && yarn migrate && yarn seed"
+    "precommit": "docker-compose down && docker-compose -p tests run -p 8000 --rm web yarn test",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "db:reset": "sequelize db:drop && sequelize db:create && yarn db:migrate && yarn db:seed"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
