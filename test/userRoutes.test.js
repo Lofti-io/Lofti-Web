@@ -19,7 +19,7 @@ describe('GET /users', function() {
 })
 
 describe('PUT /users', function() {
-  it('should should create new user -- 201', function(done) {
+  it('should create new user -- 201', function(done) {
     api
       .put("/users")
       .set('Accept', 'application/x-www-form-urlencoded')
