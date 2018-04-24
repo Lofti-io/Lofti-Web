@@ -2,12 +2,19 @@
 
 The web app for Lofti
 
-## Contributing
+## Building
 
 1. Clone this repo
-2. Make sure you have [Vagrant](https://www.vagrantup.com)
-3. In the cloned directory run: `vagrant up`
-4. When finished run: `vagrant ssh`
-5. `cd Lofti`
-6. Run `yarn boot`
-7. You're all set! Either `yarn start` to start server or get coding.
+2. Make sure you have [Docker & Docker-compose](https://docs.docker.com/install/)
+3. Ask an admin for the `docker-compose.yml` file, required to build this project
+4. In the cloned directory  run: `docker-compose up`
+
+## Adding dependencies
+
+To add dependencies you can install it on the docker instance which
+will modify both the `yarn.lock` and `package.json` files which can
+then be committed.
+
+1. Run `docker-compose run --rm lofti /bin/bash` to login into a container
+2. Once logged in, run `yarn add [PACKAGE]` or any other commands you need
+3. Commit your work!
