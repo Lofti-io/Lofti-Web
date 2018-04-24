@@ -1,15 +1,25 @@
 FROM node:latest
 
-# Create working directory
-WORKDIR /usr/app
+# Create unprivileged user
+RUN useradd --user-group --create-home --shell /bin/false app
 
-# Install NPM packages
-COPY ./package.json /usr/app/package.json
-COPY ./yarn.lock /usr/app/yarn.lock
+# Home dir
+ENV HOME=/home/app
+
+# Copy yarn files and fix ownerships
+COPY package.json yarn.lock $HOME/lofti/
+RUN chown -R app:app $HOME/*
+
+# Download dependencies
+USER app
+WORKDIR $HOME/lofti
 RUN yarn install --silent
 
-# Add app code
-COPY . /usr/app
+# Copy rest of files
+USER root
+COPY . $HOME/lofti
+RUN chown -R app:app $HOME/*
+USER app
 
 # Use this port
 EXPOSE 8000
