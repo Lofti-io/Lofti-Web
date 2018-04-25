@@ -32,7 +32,6 @@ describe('PUT /users/create', function() {
       .end(function(err, res) {
         expect(res.body.name).to.equal('User Test')
         expect(res.body.email).to.equal('usertest@mail.com')
-        expect(res.body.password).to.equal('password')
         done()
       })
   })

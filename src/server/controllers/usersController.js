@@ -1,28 +1,35 @@
 import { Sequelize, User, Review } from '../models'
+import hash from '../utils/passwordHasher'
 
 // Defines all possible operations on the User model
 class UserController {
   // Creates a new user given name, email and password
   static create(req, res) {
-    return User
-      .create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
+    hash(req.body.password)
+      .then(password =>
+        User
+          .create({
+            name: req.body.name,
+            email: req.body.email,
+            password,
+          })
+          .then(user => res.status(201).send(user))
+          // Only happens when creating a user that already has given email
+          .catch(Sequelize.UniqueConstraintError, uniqError =>
+            res.status(409).json({
+              'message:': uniqError.errors[0].message,
+              'value:': uniqError.errors[0].value,
+            }))
+          // Error caused by invalid email, name length, etc
+          .catch(Sequelize.ValidationError, valError =>
+            res.status(409).json({
+              'errors:': valError.errors.map(val => ({ message: val.message, value: val.value })),
+            }))
+          .catch(error => res.status(400).json({ message: error.toString() })))
+      .catch((error) => {
+        console.error(`ERROR: Issue with hashing user password: ${error}`)
+        res.status(500).json({ message: 'Error hashing user password.' })
       })
-      .then(user => res.status(201).send(user))
-      // Only happens when creating a user that already has given email
-      .catch(Sequelize.UniqueConstraintError, uniqError =>
-        res.status(409).json({
-          'message:': uniqError.errors[0].message,
-          'value:': uniqError.errors[0].value,
-        }))
-      // Error caused by invalid email, name length, etc
-      .catch(Sequelize.ValidationError, valError =>
-        res.status(409).json({
-          'errors:': valError.errors.map(val => ({ message: val.message, value: val.value })),
-        }))
-      .catch(error => res.status(400).json({ message: error.toString() }))
   }
 
   // Returns a user given a `userId`

@@ -48,6 +48,13 @@ const UserModel = (sequelize, DataTypes) => {
     })
   }
 
+  // Disable returning user password when converting to JSON
+  User.prototype.toJSON = function toJSON() {
+    const JSON = Object.assign({}, this.get())
+    delete JSON.password
+    return JSON
+  }
+
   return User
 }
 
