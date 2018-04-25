@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import supertest from 'supertest'
 import { should, expect } from 'chai'
 
@@ -21,7 +23,7 @@ describe('GET /users', function() {
 describe('PUT /users/create', function() {
   it('should create new user -- 201', function(done) {
     api
-      .put("/users/create")
+      .put('/users/create')
       .set('Accept', 'application/x-www-form-urlencoded')
       .send({
         name: 'User Test',
@@ -32,6 +34,24 @@ describe('PUT /users/create', function() {
       .end(function(err, res) {
         expect(res.body.name).to.equal('User Test')
         expect(res.body.email).to.equal('usertest@mail.com')
+        done()
+      })
+  })
+})
+
+// Uses test user in src/seeders/testUser1.js
+describe('POST /users/login', function() {
+  it('should login test user -- 200', function(done) {
+    api
+      .post('/users/login')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send({
+        id: 'ddeb27fb-d9a0-4624-be4d-4615062daed4',
+        password: 'testpass',
+      })
+      .expect(200)
+      .end(function(err, res) {
+        expect(res.body.message).to.equal('Logged in')
         done()
       })
   })

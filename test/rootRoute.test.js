@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import supertest from 'supertest'
 import app from '../src/server/app'
 import { should, expect } from 'chai'

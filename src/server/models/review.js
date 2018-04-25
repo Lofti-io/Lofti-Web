@@ -32,7 +32,7 @@ const ReviewModel = (sequelize, DataTypes) => {
 
   Review.associate = (models) => {
     Review.belongsTo(models.User, {
-      foreignKey: 'userId',
+      foreignKey: 'id',
       onDelete: 'CASCADE',
     })
   }

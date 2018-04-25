@@ -23,14 +23,19 @@ routes.get('/:userId', UserController.get)
 routes.put('/create', UserController.create)
 
 /**
+ * POST login, logs a user in
+ */
+routes.post('/login', UserController.login)
+
+/**
  * POST review, creates a new review under the given user
  */
-routes.post('/:userId/reviews', ReviewController.create)
+routes.post('/:id/reviews', ReviewController.create)
 
 /**
  * GET user reviews by user id.
  * Returns the Review objects given the user id.
  */
-routes.get('/:userId/reviews', ReviewController.list)
+routes.get('/:id/reviews', ReviewController.list)
 
 export default routes
