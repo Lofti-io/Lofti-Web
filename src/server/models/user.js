@@ -37,7 +37,7 @@ const UserModel = (sequelize, DataTypes) => {
 
     // user.password
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.BLOB,
       allowNull: false,
     },
   })

@@ -2,8 +2,6 @@ import SecurePassword from 'secure-password'
 
 const secPassword = new SecurePassword()
 
-// TODO: Remove base64 usage, due to: https://github.com/emilbayes/secure-password/issues/10
-
 /**
  * Given a password buffer, will return an Argon2id hashed password.
  * Returns a promise object.
@@ -23,7 +21,7 @@ function hash(password) {
         reject(error)
       }
 
-      resolve(hashedPassword.toString('base64'))
+      resolve(hashedPassword)
     })
   })
 }
@@ -37,7 +35,7 @@ function hash(password) {
  */
 function verify(password, hashedPassword) {
   const passwordBuffer = Buffer.from(password)
-  const hashBuffer = Buffer.from(hashedPassword, 'base64')
+  const hashBuffer = Buffer.from(hashedPassword)
 
   return new Promise((resolve, reject) => {
     secPassword.verify(passwordBuffer, hashBuffer, (error, result) => {
@@ -71,7 +69,7 @@ function verify(password, hashedPassword) {
               reject(err)
             }
 
-            resolve(true, newHash.toString('base64'))
+            resolve(true, newHash)
           })
           break
         default:

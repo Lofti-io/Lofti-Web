@@ -24,7 +24,7 @@ module.exports = {
 
       // user.password
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.BLOB,
         allowNull: false,
       },
 

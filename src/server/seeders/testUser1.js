@@ -3,7 +3,7 @@ const securePassword = require('secure-password')
 const pwd = securePassword()
 
 const plainPass = Buffer.from('testpass')
-const hashedPass = pwd.hashSync(plainPass).toString('base64')
+const hashedPass = pwd.hashSync(plainPass)
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

@@ -19,7 +19,7 @@
     "precommit": "docker-compose down --remove-orphans && docker-compose -p tests run -p 3000 --rm lofti yarn test && docker-compose down --remove-orphans",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "db:reset": "sequelize db:drop && sequelize db:create && yarn db:migrate && yarn db:seed"
+    "db:reset": "sequelize db:drop || true && sequelize db:create && yarn db:migrate && yarn db:seed"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
