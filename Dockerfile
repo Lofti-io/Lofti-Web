@@ -1,8 +1,5 @@
 FROM node:latest
 
-# Create unprivileged user
-RUN useradd --user-group --create-home --shell /bin/false app
-
 # Home dir
 ENV HOME=/home/app
 WORKDIR $HOME/lofti
