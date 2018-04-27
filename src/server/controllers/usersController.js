@@ -27,33 +27,47 @@ class UserController {
 
   // Logs a user in
   static async login(req, res) {
-    if (!req.body.id || !req.body.password) {
-      return res.status(400).json({ message: 'Invalid message format' })
+    if (!req.body.password) {
+      return res.status(400).json({ message: "'password' is a required parameter, but is missing." })
     }
 
     try {
-      const user = await User.findById(req.body.id)
+      const user = await User.findById(req.body.userId)
       const verified = await user.verifyPassword(req.body.password)
 
       if (!verified) {
         return res.status(401).json({ message: 'Incorrect password' })
       }
 
-      // TODO: Do stuff with session/jwt/etc
+      // Create authenticated session
+      req.session.userId = user.id
+
       return res.status(200).json({ message: 'Logged in' })
     } catch (error) {
       if (error instanceof Sequelize.DatabaseError) {
-        return res.status(404).json({ message: `No user found with id: ${req.body.id}` })
+        return res.status(404).json({ message: `No user found with id: ${req.body.userId}` })
       }
 
       return res.status(500).json({ message: `Error: ${error.toString()}` })
     }
   }
 
+  // Logs a user out
+  static logout(req, res) {
+    if (req.session && req.session.userId) {
+      return req.session.destroy((error) => {
+        if (error) return res.status(500).json({ message: `Error: ${error.toString()}` })
+        return res.status(200).json({ message: 'Logged out successfully' })
+      })
+    }
+
+    return res.status(200).json({ message: 'Already logged out' })
+  }
+
   // Returns a user given a `id`
   static get(req, res) {
     return User
-      .findById(req.params.id)
+      .findById(req.params.userId)
       .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error.toString()))
   }

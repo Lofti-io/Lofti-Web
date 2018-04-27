@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import UserController from '../controllers/usersController'
 import ReviewController from '../controllers/reviewsController'
+import requiresUserId from '../middleware/valid'
 
 const routes = Router()
 
@@ -25,17 +26,22 @@ routes.put('/create', UserController.create)
 /**
  * POST login, logs a user in
  */
-routes.post('/login', UserController.login)
+routes.post('/login', requiresUserId, UserController.login)
+
+/**
+ * POST logout, logs out a user, or does nothing if no user logged in
+ */
+routes.post('/logout', requiresUserId, UserController.logout)
 
 /**
  * POST review, creates a new review under the given user
  */
-routes.post('/:id/reviews', ReviewController.create)
+routes.post('/:userId/reviews', ReviewController.create)
 
 /**
  * GET user reviews by user id.
  * Returns the Review objects given the user id.
  */
-routes.get('/:id/reviews', ReviewController.list)
+routes.get('/:userId/reviews', ReviewController.list)
 
 export default routes

@@ -15,7 +15,7 @@ describe('GET /users', function() {
       .expect(200)
       .end(function(err, res) {
         expect(res.body.length > 0)
-        done()
+        return done()
       })
   })
 })
@@ -28,13 +28,13 @@ describe('PUT /users/create', function() {
       .send({
         name: 'User Test',
         email: 'usertest@mail.com',
-        password: 'password'
+        password: 'password',
       })
       .expect(201)
       .end(function(err, res) {
         expect(res.body.name).to.equal('User Test')
         expect(res.body.email).to.equal('usertest@mail.com')
-        done()
+        return done()
       })
   })
 })
@@ -46,13 +46,30 @@ describe('POST /users/login', function() {
       .post('/users/login')
       .set('Accept', 'application/x-www-form-urlencoded')
       .send({
-        id: 'ddeb27fb-d9a0-4624-be4d-4615062daed4',
+        userId: 'ddeb27fb-d9a0-4624-be4d-4615062daed4',
         password: 'testpass',
       })
       .expect(200)
       .end(function(err, res) {
         expect(res.body.message).to.equal('Logged in')
-        done()
+        return done()
+      })
+  })
+})
+
+// Logs out a non-existent user, should return 200
+describe('POST /users/logout', function() {
+  it('should return already logged out message -- 200', function(done) {
+    api
+      .post('/users/logout')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send({
+        userId: 'not-an-id',
+      })
+      .expect(200)
+      .end(function(err, res) {
+        expect(res.body.message).to.equal('Already logged out')
+        return done()
       })
   })
 })
