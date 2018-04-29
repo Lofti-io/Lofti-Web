@@ -67,7 +67,14 @@ class UserController {
   static async delete(req, res) {
     try {
       await req.user.destroy()
-      return res.status(200).json({ message: `User with id: ${req.body.userId} has been deleted` })
+
+      // Also, remove auth from session
+      return req.session.destroy((error) => {
+        if (error) {
+          return res.status(500).json({ message: 'User deleted, but unable to remove session' })
+        }
+        return res.status(200).json({ message: `User with id: ${req.body.userId} has been deleted` })
+      })
     } catch (error) {
       return res.status(500).json({ message: `Error: ${error.toString()}` })
     }
