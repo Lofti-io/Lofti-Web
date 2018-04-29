@@ -1,7 +1,9 @@
 import { Router } from 'express'
+
 import UserController from '../controllers/usersController'
 import ReviewController from '../controllers/reviewsController'
-import requiresUserId from '../middleware/valid'
+import { requiresUserId, findUserOr404 } from '../middleware/valid'
+import requiresLogin from '../middleware/auth'
 
 const routes = Router()
 
@@ -19,6 +21,12 @@ routes.get('/', UserController.list)
 routes.get('/:userId', UserController.get)
 
 /**
+ * GET user reviews by user id.
+ * Returns the Review objects given the user id.
+ */
+routes.get('/:userId/reviews', ReviewController.list)
+
+/**
 * PUT user, creates a new user
 */
 routes.put('/create', UserController.create)
@@ -26,7 +34,7 @@ routes.put('/create', UserController.create)
 /**
  * POST login, logs a user in
  */
-routes.post('/login', requiresUserId, UserController.login)
+routes.post('/login', requiresUserId, findUserOr404, UserController.login)
 
 /**
  * POST logout, logs out a user, or does nothing if no user logged in
@@ -34,14 +42,13 @@ routes.post('/login', requiresUserId, UserController.login)
 routes.post('/logout', requiresUserId, UserController.logout)
 
 /**
+ * DELETE user, deletes the user specified by the `req.body.userId` param
+ */
+routes.delete('/delete', requiresUserId, requiresLogin, findUserOr404, UserController.delete)
+
+/**
  * POST review, creates a new review under the given user
  */
 routes.post('/:userId/reviews', ReviewController.create)
-
-/**
- * GET user reviews by user id.
- * Returns the Review objects given the user id.
- */
-routes.get('/:userId/reviews', ReviewController.list)
 
 export default routes

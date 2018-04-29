@@ -4,6 +4,7 @@ import supertest from 'supertest'
 import { should, expect } from 'chai'
 
 import app from '../src/server/app'
+import { TEST_USER_ID } from '../src/shared/constants'
 
 const api = supertest(app)
 
@@ -24,7 +25,7 @@ describe('PUT /users/create', function() {
   it('should create new user -- 201', function(done) {
     api
       .put('/users/create')
-      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({
         name: 'User Test',
         email: 'usertest@mail.com',
@@ -44,9 +45,9 @@ describe('POST /users/login', function() {
   it('should login test user -- 200', function(done) {
     api
       .post('/users/login')
-      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({
-        userId: 'ddeb27fb-d9a0-4624-be4d-4615062daed4',
+        userId: TEST_USER_ID,
         password: 'testpass',
       })
       .expect(200)
@@ -62,7 +63,7 @@ describe('POST /users/logout', function() {
   it('should return already logged out message -- 200', function(done) {
     api
       .post('/users/logout')
-      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({
         userId: 'not-an-id',
       })

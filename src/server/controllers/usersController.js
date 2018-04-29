@@ -31,25 +31,16 @@ class UserController {
       return res.status(400).json({ message: "'password' is a required parameter, but is missing." })
     }
 
-    try {
-      const user = await User.findById(req.body.userId)
-      const verified = await user.verifyPassword(req.body.password)
+    const verified = await req.user.verifyPassword(req.body.password)
 
-      if (!verified) {
-        return res.status(401).json({ message: 'Incorrect password' })
-      }
-
-      // Create authenticated session
-      req.session.userId = user.id
-
-      return res.status(200).json({ message: 'Logged in' })
-    } catch (error) {
-      if (error instanceof Sequelize.DatabaseError) {
-        return res.status(404).json({ message: `No user found with id: ${req.body.userId}` })
-      }
-
-      return res.status(500).json({ message: `Error: ${error.toString()}` })
+    if (!verified) {
+      return res.status(401).json({ message: 'Incorrect password' })
     }
+
+    // Create authenticated session
+    req.session.userId = req.user.id
+
+    return res.status(200).json({ message: 'Logged in' })
   }
 
   // Logs a user out
@@ -70,6 +61,16 @@ class UserController {
       .findById(req.params.userId)
       .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error.toString()))
+  }
+
+  // Deletes a user from the database
+  static async delete(req, res) {
+    try {
+      await req.user.destroy()
+      return res.status(200).json({ message: `User with id: ${req.body.userId} has been deleted` })
+    } catch (error) {
+      return res.status(500).json({ message: `Error: ${error.toString()}` })
+    }
   }
 
   // Returns all the users from the database

@@ -4,6 +4,7 @@ import session from 'supertest-session'
 import { should, expect } from 'chai'
 
 import app from '../src/server/app'
+import { TEST_USER_ID } from '../src/shared/constants'
 
 const api = supertest(app)
 
@@ -11,14 +12,12 @@ const testSession = session(app)
 let authSession = null
 
 // Before testing, log the user in and set authSession
-// Uses the test user with id: 'ddeb27fb-d9a0-4624-be4d-4615062daed4'
-before(function(done) {
-  console.log('Cunnnnnt?')
+beforeEach(function(done) {
   testSession
     .post('/users/login')
-    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
     .send({
-      userId: 'ddeb27fb-d9a0-4624-be4d-4615062daed4',
+      userId: TEST_USER_ID,
       password: 'testpass',
     })
     .expect(200)
@@ -35,14 +34,29 @@ describe('POST /users/logout', function() {
   it('should log out the user -- 200', function(done) {
     authSession
       .post('/users/logout')
-      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({
-        userId: 'ddeb27fb-d9a0-4624-be4d-4615062daed4',
+        userId: TEST_USER_ID,
       })
       .expect(200)
       .end(function(err, res) {
-        console.log(err, res)
         expect(res.body.message).to.equal('Logged out successfully')
+        return done()
+      })
+  })
+})
+
+describe('DELETE /users/delete', function () {
+  it('should delete the test user -- 200', function(done) {
+    authSession
+      .delete('/users/delete')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({
+        userId: TEST_USER_ID,
+      })
+      .expect(200)
+      .end(function (err, res) {
+        expect(res.body.message).to.equal(`User with id: ${TEST_USER_ID} has been deleted`)
         return done()
       })
   })
